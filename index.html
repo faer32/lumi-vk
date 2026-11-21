@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Люми: Свет Глубин</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<div id="ui">
+
+  <!-- Загрузка -->
+  <div id="scr-load" class="screen on solid">
+    <div class="loader"><div class="loader-orb"></div></div>
+  </div>
+
+  <!-- Игровой интерфейс -->
+  <div id="hud" class="hud">
+    <div class="hud-top">
+      <div class="hud-l">
+        <div class="lv" id="hudLv">1</div>
+        <div class="bars">
+          <div class="bar hp"><i id="hpFill"></i><span id="hpTxt"></span></div>
+          <div class="bar xp"><i id="xpFill"></i></div>
+        </div>
+      </div>
+      <div class="hud-c">
+        <div id="waveTxt" class="wave-txt"></div>
+        <div class="bar wv"><i id="waveFill"></i></div>
+      </div>
+      <div class="hud-r">
+        <div class="pearls"><i class="pearl"></i><b id="hudPearls">0</b></div>
+        <button id="btnPause" class="ibtn" tabindex="-1"></button>
+      </div>
+    </div>
+    <div id="bossBar" class="boss-bar"><span id="bossName"></span><div class="bar boss"><i id="bossFill"></i></div></div>
+    <div id="banner" class="banner"><b id="bannerA"></b><span id="bannerB"></span></div>
+    <div id="hint" class="hint"></div>
+    <button id="btnDash" class="dash" tabindex="-1"><span id="dashTxt"></span></button>
+  </div>
+
+  <!-- Главное меню -->
+  <div id="scr-menu" class="screen menu">
+    <div class="menu-box">
+      <h1 class="logo"><span id="logoA"></span><small id="logoB"></small></h1>
+      <p class="tag" data-t="tagline"></p>
+      <button class="btn big" id="btnPlay" data-t="play"></button>
+      <div class="row">
+        <button class="btn sec" id="btnShop" data-t="upgrades"></button>
+        <button class="btn sec" id="btnHeroes" data-t="heroes"></button>
+      </div>
+      <button class="btn ghost" id="btnHelp" data-t="howto"></button>
+      <div class="menu-stats">
+        <span id="menuBest"></span>
+        <span class="pearls"><i class="pearl"></i><b id="menuPearls">0</b></span>
+      </div>
+    </div>
+    <div class="corner">
+      <button id="btnSfx" class="ibtn"></button>
+      <button id="btnMusic" class="ibtn"></button>
+      <button id="btnLang" class="ibtn txt"></button>
+    </div>
+  </div>
+
+  <!-- Вступление -->
+  <div id="scr-intro" class="screen dim">
+    <div class="panel narrow">
+      <h2 data-t="introTitle"></h2>
+      <p class="story" data-t="intro1"></p>
+      <p class="story" data-t="intro2"></p>
+      <p class="story" data-t="intro3"></p>
+      <button class="btn big" id="btnIntroGo" data-t="start"></button>
+    </div>
+  </div>
+
+  <!-- Улучшения -->
+  <div id="scr-shop" class="screen dim">
+    <div class="panel wide">
+      <div class="panel-head">
+        <h2 data-t="shopTitle"></h2>
+        <span class="pearls"><i class="pearl"></i><b id="shopPearls">0</b></span>
+      </div>
+      <p class="sub" data-t="shopHint"></p>
+      <div id="shopList" class="list scroll"></div>
+      <button class="btn sec" id="btnShopBack" data-t="back"></button>
+    </div>
+  </div>
+
+  <!-- Герои -->
+  <div id="scr-heroes" class="screen dim">
+    <div class="panel wide">
+      <div class="panel-head">
+        <h2 data-t="heroTitle"></h2>
+        <span class="pearls"><i class="pearl"></i><b id="heroPearls">0</b></span>
+      </div>
+      <div id="heroList" class="heroes scroll"></div>
+      <button class="btn sec" id="btnHeroesBack" data-t="back"></button>
+    </div>
+  </div>
+
+  <!-- Как играть -->
+  <div id="scr-help" class="screen dim">
+    <div class="panel narrow">
+      <h2 data-t="helpTitle"></h2>
+      <div class="scroll help">
+        <p data-t="helpGoal"></p>
+        <p data-t="helpPc"></p>
+        <p data-t="helpMobile"></p>
+        <p data-t="helpMeta"></p>
+      </div>
+      <button class="btn sec" id="btnHelpBack" data-t="back"></button>
+    </div>
+  </div>
+
+  <!-- Пауза -->
+  <div id="scr-pause" class="screen dim">
+    <div class="panel narrow">
+      <h2 data-t="pause"></h2>
+      <button class="btn big" id="btnResume" data-t="resume"></button>
+      <div class="row center">
+        <button id="btnSfx2" class="ibtn"></button>
+        <button id="btnMusic2" class="ibtn"></button>
+      </div>
+      <button class="btn ghost" id="btnHelp2" data-t="howto"></button>
+      <button class="btn ghost" id="btnQuit" data-t="quit"></button>
+    </div>
+  </div>
+
+  <!-- Новый уровень -->
+  <div id="scr-levelup" class="screen dim">
+    <div class="lvl-box">
+      <h2 class="glow" data-t="levelup"></h2>
+      <p class="sub" data-t="choose"></p>
+      <div id="cards" class="cards"></div>
+    </div>
+  </div>
+
+  <!-- Зона пройдена -->
+  <div id="scr-zone" class="screen dim">
+    <div class="panel narrow">
+      <h2 class="glow" data-t="zoneDone"></h2>
+      <p class="story" data-t="zoneText"></p>
+      <p class="zone-next" id="zoneNext"></p>
+      <button class="btn big" id="btnZoneNext" data-t="next"></button>
+    </div>
+  </div>
+
+  <!-- Возрождение -->
+  <div id="scr-revive" class="screen dim">
+    <div class="panel narrow">
+      <h2 data-t="reviveTitle"></h2>
+      <p class="story" data-t="reviveText"></p>
+      <button class="btn big ad" id="btnRevive"><i class="ad-ico"></i><span data-t="reviveBtn"></span></button>
+      <button class="btn ghost" id="btnGiveUp" data-t="giveUp"></button>
+    </div>
+  </div>
+
+  <!-- Итоги -->
+  <div id="scr-results" class="screen dim">
+    <div class="panel narrow">
+      <h2 data-t="results"></h2>
+      <div class="new-best" id="newBest" data-t="newBest"></div>
+      <div class="stats">
+        <div><span data-t="rWave"></span><b id="resWave"></b></div>
+        <div><span data-t="rKills"></span><b id="resKills"></b></div>
+        <div><span data-t="rTime"></span><b id="resTime"></b></div>
+        <div><span data-t="rLevel"></span><b id="resLevel"></b></div>
+        <div class="hl"><span data-t="rPearls"></span><b><i class="pearl"></i><em id="resPearls"></em></b></div>
+      </div>
+      <button class="btn ad" id="btnDouble"><i class="ad-ico"></i><span data-t="doubleBtn"></span></button>
+      <button class="btn big" id="btnAgain" data-t="again"></button>
+      <button class="btn ghost" id="btnMenu" data-t="toMenu"></button>
+    </div>
+  </div>
+
+  <!-- Победа -->
+  <div id="scr-victory" class="screen dim">
+    <div class="panel narrow">
+      <h2 class="glow" data-t="victoryTitle"></h2>
+      <p class="story" data-t="victoryText"></p>
+      <button class="btn big" id="btnEndless" data-t="endless"></button>
+      <button class="btn ghost" id="btnFinish" data-t="finish"></button>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/platform.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/art.js"></script>
+<script src="js/game.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
